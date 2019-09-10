@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raptor-simplified scraping</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand text-primary" href="#">
+        <h2>
+          <i class="fa fa-snowflake-o" aria-hidden="true"></i><b> RAPTOR</b>
+        </h2>
+      </a>
+    </nav>
+    <div class="container">
+      <form>
+        <div class="form-group row">
+          <div class="w-100 d-flex justify-content-start m-3">
+            <input
+              type="url"
+              class="form-control form-control-lg"
+              id="result-url"
+              placeholder="enter aktu one view result url"
+            />
+            <button
+              class="btn btn-primary ml-1"
+              type="button"
+              onclick="sendData()"
+            >
+              Scrape
+            </button>
+          </div>
+        </div>
+      </form>
+      <div class="w-100">
+        <textarea
+          class="w-100 p-2 text-secondary"
+          style="min-height: 20rem;"
+          id="result"
+        ></textarea>
+      </div>
+    </div>
+  </body>
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    function sendData() {
+      resUrl = document.getElementById("result-url");
+      $.ajax({
+        url: "/demo-crawl/",
+        type: "post",
+        data: {
+          url: $("#result-url").val()
+        },
+        success: function(data, textStatus, jQxhr) {
+          $("#result-url").val("");
+          $("#result").text(JSON.stringify(data, undefined, 4));
+        },
+        error: function(jqXhr, textStatus, errorThrown) {
+          res = JSON.parse(JSON.parse(jqXhr.responseText));
+          if (res["url"]) {
+            $("#result").text(res["url"][0]["message"]);
+          } else {
+            $("#result").text(jqXhr.responseText);
+          }
+        }
+      });
+    }
+  </script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
+</html>
