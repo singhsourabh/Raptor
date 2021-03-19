@@ -6,7 +6,7 @@ chardet==3.0.4
 Django==2.2.8
 django-background-tasks==1.2.0
 django-compat==1.0.15
-djangorestframework==3.10.3
+djangorestframework==3.11.2
 html5lib==1.0.1
 idna==2.8
 lxml==4.4.1
